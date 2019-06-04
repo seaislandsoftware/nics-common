@@ -4,11 +4,11 @@ Common libraries used by many NICS components
 
 
 ## Dependencies
-- NONE
+ - [nics-assembly](https://github.com/seaislandsoftware/nics-assembly)
 
 ## Building
 
-    mvn package
+    mvn clean install
 
 
 ## Description
