@@ -29,6 +29,8 @@
  */
 package edu.mit.ll.nics.common.rabbitmq;
 
+import com.rabbitmq.client.AMQP.BasicProperties;
+import java.util.HashMap;
 import java.io.IOException;
 
 public class RabbitPubSubProducer extends RabbitClient {
@@ -54,14 +56,22 @@ public class RabbitPubSubProducer extends RabbitClient {
 		this.exchangeName = exchangeName;
 	}	
 
-	public void produce(String routingKey, String message) throws IOException {
+	public void produce(String routingKey, String message, Boolean nonDefaultHeaders) throws IOException {
         if (message == null) {
         	throw new IllegalArgumentException("message is null");
         }
 		if (routingKey == null) {
 			throw new NullPointerException("routingKey is null");
-		}        
-        getChannel().basicPublish(exchangeName, routingKey, null, message.getBytes());
+		}
+		if (nonDefaultHeaders == false) {
+			getChannel().basicPublish(exchangeName, routingKey, null, message.getBytes());
+		}  else {
+			// Emit message with headers
+			BasicProperties props = new BasicProperties();
+			props.setContentEncoding("utf-8");
+			props.setContentType("application/json");
+			getChannel().basicPublish(exchangeName, routingKey, props, message.getBytes());
+		}      
         System.out.println(" [x] Sent '" + routingKey + "':'" + message + "'");	
 	}
 

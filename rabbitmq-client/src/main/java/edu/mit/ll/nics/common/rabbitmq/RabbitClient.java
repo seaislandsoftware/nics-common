@@ -144,7 +144,7 @@ public abstract class RabbitClient {
 			throw new IllegalArgumentException("Argument \"exchangeName\" must have a value.");
 		}
 		if (!isDeclaredByRabbit(exchangeName)) {
-			getChannel().exchangeDeclare(exchangeName, "topic", true, true, new HashMap<String, Object>());
+			getChannel().exchangeDeclare(exchangeName, "topic", true, false, new HashMap<String, Object>());
 		}
 	}		
 }
