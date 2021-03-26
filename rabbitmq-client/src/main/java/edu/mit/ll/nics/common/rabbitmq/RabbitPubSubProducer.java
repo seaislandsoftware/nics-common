@@ -29,7 +29,7 @@
  */
 package edu.mit.ll.nics.common.rabbitmq;
 
-import com.rabbitmq.client.AMQP.BasicProperties;
+import com.rabbitmq.client.AMQP;
 import java.util.HashMap;
 import java.io.IOException;
 
@@ -67,9 +67,10 @@ public class RabbitPubSubProducer extends RabbitClient {
 			getChannel().basicPublish(exchangeName, routingKey, null, message.getBytes());
 		}  else {
 			// Emit message with headers
-			BasicProperties props = new BasicProperties();
-			props.setContentEncoding("utf-8");
-			props.setContentType("application/json");
+			AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
+				.contentType("application/json")
+				.contentEncoding("utf-8")
+				.build();
 			getChannel().basicPublish(exchangeName, routingKey, props, message.getBytes());
 		}      
         System.out.println(" [x] Sent '" + routingKey + "':'" + message + "'");	
