@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -69,7 +70,11 @@ public abstract class RabbitClient {
 			factory.setUsername(rabbitUsername);
 		if (rabbitUserpwd != null && !rabbitUserpwd.isEmpty())		
 		factory.setPassword(rabbitUserpwd);
-		connection = factory.newConnection();
+		try {
+			connection = factory.newConnection();
+		} catch (TimeoutException e) {
+			throw new IOException(e);
+		}
 		channel = connection.createChannel();		
 	}
 
@@ -107,6 +112,8 @@ public abstract class RabbitClient {
 				channel.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TimeoutException e) {
 				e.printStackTrace();
 			} finally {
 				channel = null;				
