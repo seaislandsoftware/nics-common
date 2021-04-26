@@ -76,7 +76,7 @@
 		<camel.version>2.9.0</camel.version>
 		<commons-cli.version>1.2</commons-cli.version>
 		<commons-codec.version>1.5</commons-codec.version>
-		<commons-io.version>1.3.1</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<commons-management.version>1.0</commons-management.version>
 		<esapi.version>2.1.0</esapi.version>
         	<hsqldb.version>2.3.0</hsqldb.version>
